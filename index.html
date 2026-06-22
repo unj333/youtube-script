@@ -22,25 +22,13 @@
 * { box-sizing: border-box; margin: 0; padding: 0; }
 body { font-family: 'Pretendard', 'Apple SD Gothic Neo', -apple-system, system-ui, sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; }
 
-nav {
-  background: var(--nav);
-  border-bottom: 1px solid var(--border);
-  padding: 0 24px;
-  height: 56px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  position: sticky;
-  top: 0;
-  z-index: 100;
-}
+nav { background: var(--nav); border-bottom: 1px solid var(--border); padding: 0 24px; height: 56px; display: flex; align-items: center; justify-content: space-between; position: sticky; top: 0; z-index: 100; }
 .nav-logo { font-size: 16px; font-weight: 700; display: flex; align-items: center; gap: 8px; }
 .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--primary); display: inline-block; }
 .nav-badge { font-size: 12px; background: rgba(68,147,248,0.15); color: var(--primary); border: 1px solid rgba(68,147,248,0.3); border-radius: 999px; padding: 3px 10px; }
 
 .wrap { max-width: 1100px; margin: 0 auto; padding: 32px 20px 80px; }
 
-/* 스텝 인디케이터 */
 .steps { display: flex; gap: 0; margin-bottom: 32px; }
 .step { flex: 1; text-align: center; position: relative; }
 .step::after { content: ''; position: absolute; top: 16px; left: 50%; width: 100%; height: 2px; background: var(--border); z-index: 0; }
@@ -52,44 +40,41 @@ nav {
 .step.active .step-label { color: var(--primary); font-weight: 600; }
 .step.done .step-label { color: var(--success); }
 
-/* 공통 */
-.section { margin-bottom: 24px; }
 .section-title { font-size: 16px; font-weight: 700; margin-bottom: 14px; display: flex; align-items: center; gap: 8px; }
 .card { background: var(--card); border: 1px solid var(--border); border-radius: var(--radius); padding: 20px; margin-bottom: 16px; }
 
-/* API 설정 */
 .api-toggle { font-size: 13px; color: var(--muted); cursor: pointer; display: flex; align-items: center; gap: 6px; margin-bottom: 10px; }
 .api-toggle:hover { color: var(--text); }
 .api-panel { display: none; }
 .api-panel.open { display: block; }
 .api-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
 .field label { font-size: 12px; color: var(--muted); display: block; margin-bottom: 5px; }
-.field input {
-  width: 100%;
-  background: var(--bg);
-  border: 1px solid var(--border);
-  border-radius: 6px;
-  color: var(--text);
-  font-size: 13px;
-  font-family: monospace;
-  padding: 8px 12px;
-  outline: none;
-}
+.field input { width: 100%; background: var(--bg); border: 1px solid var(--border); border-radius: 6px; color: var(--text); font-size: 13px; font-family: monospace; padding: 8px 12px; outline: none; }
 .field input:focus { border-color: var(--primary); }
 
-/* 검색 */
 .search-row { display: flex; gap: 10px; margin-bottom: 12px; }
 .search-input { flex: 1; background: var(--card); border: 1px solid var(--border); border-radius: var(--radius); color: var(--text); font-size: 15px; padding: 12px 16px; outline: none; transition: border-color 0.2s; }
 .search-input:focus { border-color: var(--primary); }
 .search-input::placeholder { color: var(--muted); }
 
-.type-row { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
-.type-label { font-size: 13px; color: var(--muted); }
-.type-btn { background: transparent; border: 1px solid var(--border); border-radius: 999px; color: var(--muted); font-size: 13px; padding: 6px 16px; cursor: pointer; transition: all 0.15s; }
-.type-btn:hover { color: var(--text); background: var(--card); }
-.type-btn.active { border-color: var(--primary); color: var(--primary); background: rgba(68,147,248,0.1); font-weight: 600; }
+/* 필터 행 */
+.filter-row { display: flex; gap: 16px; flex-wrap: wrap; margin-bottom: 12px; align-items: center; }
+.filter-group { display: flex; gap: 6px; align-items: center; }
+.filter-label { font-size: 12px; color: var(--muted); white-space: nowrap; }
+.filter-btn { background: transparent; border: 1px solid var(--border); border-radius: 999px; color: var(--muted); font-size: 12px; padding: 5px 12px; cursor: pointer; transition: all 0.15s; white-space: nowrap; }
+.filter-btn:hover { color: var(--text); }
+.filter-btn.active { font-weight: 600; }
+.filter-btn.lang-ko.active { border-color: #3fb950; color: #3fb950; background: rgba(63,185,80,0.1); }
+.filter-btn.lang-en.active { border-color: #4493f8; color: #4493f8; background: rgba(68,147,248,0.1); }
+.filter-btn.lang-all.active { border-color: var(--warning); color: var(--warning); background: rgba(210,153,34,0.1); }
+.filter-btn.type-btn.active { border-color: var(--primary); color: var(--primary); background: rgba(68,147,248,0.1); }
 
-/* 버튼 */
+/* 언어 모드 안내 */
+.lang-notice { font-size: 12px; padding: 8px 12px; border-radius: 6px; margin-bottom: 12px; display: none; }
+.lang-notice.ko { background: rgba(63,185,80,0.08); border: 1px solid rgba(63,185,80,0.2); color: #3fb950; }
+.lang-notice.en { background: rgba(68,147,248,0.08); border: 1px solid rgba(68,147,248,0.2); color: var(--primary); }
+.lang-notice.all { background: rgba(210,153,34,0.08); border: 1px solid rgba(210,153,34,0.2); color: var(--warning); }
+
 .btn { background: var(--primary); border: none; border-radius: var(--radius); color: #fff; cursor: pointer; font-size: 14px; font-weight: 600; padding: 11px 20px; transition: background 0.2s, transform 0.1s; white-space: nowrap; display: inline-flex; align-items: center; gap: 6px; }
 .btn:hover { background: var(--primary-dark); }
 .btn:active { transform: scale(0.98); }
@@ -99,7 +84,6 @@ nav {
 .btn-ghost { background: transparent; border: 1px solid var(--border); color: var(--muted); }
 .btn-ghost:hover { background: var(--card); color: var(--text); }
 
-/* 영상 그리드 */
 .video-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 12px; }
 .video-card { background: var(--card); border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden; cursor: pointer; transition: border-color 0.15s, transform 0.15s; position: relative; }
 .video-card:hover { border-color: var(--primary); transform: translateY(-2px); }
@@ -107,10 +91,14 @@ nav {
 .video-thumb-wrap { position: relative; }
 .video-thumb { width: 100%; aspect-ratio: 16/9; object-fit: cover; background: var(--border); display: block; }
 .rank-badge { position: absolute; top: 6px; left: 6px; background: rgba(0,0,0,0.75); color: #fff; font-size: 11px; font-weight: 700; padding: 2px 7px; border-radius: 4px; }
-.check-badge { position: absolute; top: 6px; right: 6px; width: 24px; height: 24px; background: var(--primary); border-radius: 50%; display: none; align-items: center; justify-content: center; font-size: 12px; color: #fff; font-weight: 700; }
+.lang-tag { position: absolute; top: 6px; right: 6px; font-size: 10px; font-weight: 700; padding: 2px 6px; border-radius: 4px; }
+.lang-tag.ko { background: rgba(63,185,80,0.85); color: #fff; }
+.lang-tag.en { background: rgba(68,147,248,0.85); color: #fff; }
+.lang-tag.other { background: rgba(128,128,128,0.85); color: #fff; }
+.check-badge { position: absolute; bottom: 6px; right: 6px; width: 22px; height: 22px; background: var(--primary); border-radius: 50%; display: none; align-items: center; justify-content: center; font-size: 11px; color: #fff; font-weight: 700; }
 .video-card.selected .check-badge { display: flex; }
-.transcript-badge { position: absolute; bottom: 6px; right: 6px; background: rgba(63,185,80,0.9); color: #fff; font-size: 10px; font-weight: 700; padding: 2px 6px; border-radius: 4px; display: none; }
-.video-card.has-transcript .transcript-badge { display: block; }
+.transcript-ok { position: absolute; bottom: 6px; left: 6px; background: rgba(63,185,80,0.9); color: #fff; font-size: 10px; font-weight: 700; padding: 2px 6px; border-radius: 4px; display: none; }
+.video-card.has-transcript .transcript-ok { display: block; }
 .video-body { padding: 10px 12px; }
 .video-title { font-size: 13px; font-weight: 600; line-height: 1.4; margin-bottom: 5px; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
 .video-channel { font-size: 12px; color: var(--muted); }
@@ -118,47 +106,36 @@ nav {
 .video-views { color: var(--primary); font-weight: 600; }
 .video-date { color: var(--muted); }
 
-/* 분석 진행 */
-.analysis-wrap { margin-top: 20px; }
 .analysis-item { background: var(--card); border: 1px solid var(--border); border-radius: var(--radius); padding: 14px 16px; margin-bottom: 10px; }
 .analysis-header { display: flex; align-items: center; gap: 10px; margin-bottom: 8px; }
 .analysis-thumb { width: 48px; height: 27px; object-fit: cover; border-radius: 4px; background: var(--border); }
 .analysis-title { font-size: 13px; font-weight: 600; flex: 1; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-.analysis-status { font-size: 12px; padding: 2px 8px; border-radius: 999px; font-weight: 600; }
+.analysis-status { font-size: 12px; padding: 2px 8px; border-radius: 999px; font-weight: 600; white-space: nowrap; }
 .status-loading { background: rgba(210,153,34,0.15); color: var(--warning); }
 .status-done { background: rgba(63,185,80,0.15); color: var(--success); }
 .status-error { background: rgba(248,81,73,0.15); color: var(--danger); }
 .analysis-content { font-size: 12px; color: var(--muted); line-height: 1.6; border-top: 1px solid var(--border); padding-top: 8px; display: none; }
 .analysis-item.expanded .analysis-content { display: block; }
 
-/* 프롬프트 영역 */
-.prompt-wrap { margin-top: 20px; }
 .prompt-box { background: var(--bg); border: 1px solid var(--border); border-radius: var(--radius); padding: 16px; font-size: 13px; line-height: 1.8; white-space: pre-wrap; max-height: 300px; overflow-y: auto; color: var(--muted); }
 .prompt-actions { display: flex; gap: 10px; margin-top: 12px; align-items: center; flex-wrap: wrap; }
 .claude-btn { background: #cc785c; border: none; border-radius: var(--radius); color: #fff; font-size: 14px; font-weight: 700; padding: 12px 24px; cursor: pointer; display: inline-flex; align-items: center; gap: 8px; transition: background 0.2s; }
 .claude-btn:hover { background: #b5674d; }
 
-/* 로딩 */
 .loading-wrap { text-align: center; padding: 50px 20px; }
 .spinner { width: 36px; height: 36px; border: 3px solid var(--border); border-top-color: var(--primary); border-radius: 50%; animation: spin 0.8s linear infinite; margin: 0 auto 16px; }
 @keyframes spin { to { transform: rotate(360deg); } }
 
-/* 에러 */
 .error-box { background: rgba(248,81,73,0.1); border: 1px solid rgba(248,81,73,0.3); border-radius: var(--radius); color: #ff7b72; font-size: 13px; padding: 12px 16px; margin-top: 10px; display: none; }
-
 .empty-state { text-align: center; padding: 50px 20px; color: var(--muted); }
-.empty-icon { font-size: 40px; margin-bottom: 12px; }
-
 .result-meta { font-size: 13px; color: var(--muted); margin-bottom: 12px; }
 .result-meta b { color: var(--text); }
-
 .hidden { display: none !important; }
 
 @media (max-width: 600px) {
   .api-grid { grid-template-columns: 1fr; }
   .video-grid { grid-template-columns: repeat(2, 1fr); }
-  .steps { gap: 0; }
-  .step-label { font-size: 10px; }
+  .filter-row { gap: 8px; }
 }
 </style>
 </head>
@@ -171,60 +148,52 @@ nav {
 
 <div class="wrap">
 
-  <!-- 스텝 인디케이터 -->
-  <div class="steps" id="stepsBar">
-    <div class="step active" id="step1">
-      <div class="step-circle">1</div>
-      <div class="step-label">키워드 검색</div>
-    </div>
-    <div class="step" id="step2">
-      <div class="step-circle">2</div>
-      <div class="step-label">영상 선택</div>
-    </div>
-    <div class="step" id="step3">
-      <div class="step-circle">3</div>
-      <div class="step-label">자막 분석</div>
-    </div>
-    <div class="step" id="step4">
-      <div class="step-circle">4</div>
-      <div class="step-label">대본 생성</div>
-    </div>
+  <div class="steps">
+    <div class="step active" id="step1"><div class="step-circle">1</div><div class="step-label">키워드 검색</div></div>
+    <div class="step" id="step2"><div class="step-circle">2</div><div class="step-label">영상 선택</div></div>
+    <div class="step" id="step3"><div class="step-circle">3</div><div class="step-label">자막 분석</div></div>
+    <div class="step" id="step4"><div class="step-circle">4</div><div class="step-label">대본 생성</div></div>
   </div>
 
-  <!-- API 설정 -->
-  <div class="api-toggle" onclick="toggleApi()">⚙️ API 설정 <span id="apiStatus">⚠ 키 입력 필요</span></div>
+  <div class="api-toggle" onclick="toggleApi()">⚙️ API 설정 <span id="apiStatus" style="color:var(--warning);">⚠ 키 입력 필요</span></div>
   <div class="api-panel" id="apiPanel">
     <div class="card">
       <div class="api-grid">
-        <div class="field">
-          <label>YouTube Data API 키</label>
-          <input type="password" id="ytKey" placeholder="AIzaSy..." />
-        </div>
-        <div class="field">
-          <label>Supadata API 키 (자막 추출)</label>
-          <input type="password" id="supaKey" placeholder="sd_9..." />
-        </div>
+        <div class="field"><label>YouTube Data API 키</label><input type="password" id="ytKey" placeholder="AIzaSy..." /></div>
+        <div class="field"><label>Supadata API 키 (자막 추출)</label><input type="password" id="supaKey" placeholder="sd_9..." /></div>
       </div>
     </div>
   </div>
 
-  <!-- STEP 1: 검색 -->
-  <div class="section" id="searchSection">
-    <div class="section-title">🔍 키워드 검색</div>
-    <div class="search-row">
-      <input type="text" class="search-input" id="keyword" placeholder="예: 아마존 셀러 시작, 아마존 PPC, 해외 판매..." onkeydown="if(event.key==='Enter') doSearch()" />
-      <button class="btn" onclick="doSearch()" id="searchBtn">검색</button>
-    </div>
-    <div class="type-row">
-      <span class="type-label">콘텐츠 유형:</span>
-      <button class="type-btn active" onclick="setType('long',this)">롱폼 (유튜브)</button>
-      <button class="type-btn" onclick="setType('short',this)">숏폼 (쇼츠/릴스)</button>
-      <button class="type-btn" onclick="setType('both',this)">둘 다</button>
-    </div>
-    <div class="error-box" id="searchError"></div>
+  <div class="section-title">🔍 키워드 검색</div>
+  <div class="search-row">
+    <input type="text" class="search-input" id="keyword" placeholder="예: amazon PPC, amazon seller, 아마존 셀러..." onkeydown="if(event.key==='Enter') doSearch()" />
+    <button class="btn" onclick="doSearch()">검색</button>
   </div>
 
-  <!-- 로딩 -->
+  <!-- 필터 행 -->
+  <div class="filter-row">
+    <div class="filter-group">
+      <span class="filter-label">🌐 언어:</span>
+      <button class="filter-btn lang-ko" onclick="setLang('ko',this)">🇰🇷 한국어</button>
+      <button class="filter-btn lang-en active" onclick="setLang('en',this)">🇺🇸 영어 (해외 트렌드)</button>
+      <button class="filter-btn lang-all" onclick="setLang('all',this)">전체</button>
+    </div>
+    <div class="filter-group">
+      <span class="filter-label">📹 유형:</span>
+      <button class="filter-btn type-btn active" onclick="setType('long',this)">롱폼</button>
+      <button class="filter-btn type-btn" onclick="setType('short',this)">숏폼</button>
+      <button class="filter-btn type-btn" onclick="setType('both',this)">둘 다</button>
+    </div>
+  </div>
+
+  <!-- 언어 모드 안내 -->
+  <div class="lang-notice en" id="langNotice" style="display:block;">
+    💡 <b>영어 모드:</b> 해외에서 이미 검증된 아마존 콘텐츠를 분석해서 한국 최초로 재구성할 수 있어요. 자막 추출률도 더 높아요.
+  </div>
+
+  <div class="error-box" id="searchError"></div>
+
   <div class="hidden" id="loadingArea">
     <div class="loading-wrap">
       <div class="spinner"></div>
@@ -232,7 +201,6 @@ nav {
     </div>
   </div>
 
-  <!-- STEP 2: 영상 목록 -->
   <div class="hidden" id="videoSection">
     <div class="section-title">📊 검색 결과 <span style="font-size:13px; font-weight:400; color:var(--muted);">— 영상을 선택하세요 (최대 5개)</span></div>
     <p class="result-meta" id="resultMeta"></p>
@@ -242,20 +210,18 @@ nav {
     </div>
   </div>
 
-  <!-- STEP 3: 분석 결과 -->
   <div class="hidden" id="analysisSection">
-    <div class="section-title">🧠 자막 분석 중...</div>
+    <div class="section-title" id="analysisSectionTitle">🧠 자막 분석 중...</div>
     <div id="analysisList"></div>
     <div style="display:flex; justify-content:flex-end; margin-top:12px;">
       <button class="btn btn-success hidden" id="generateBtn" onclick="generatePrompt()">✨ 대본 프롬프트 생성하기</button>
     </div>
   </div>
 
-  <!-- STEP 4: 프롬프트 -->
   <div class="hidden" id="promptSection">
     <div class="section-title">📋 Claude 프로젝트에 붙여넣기</div>
     <div class="card">
-      <p style="font-size:13px; color:var(--muted); margin-bottom:12px;">아래 프롬프트가 자동 복사됩니다. <b style="color:var(--text);">Claude 프로젝트</b> 열고 Ctrl+V로 붙여넣으면 대본이 생성됩니다!</p>
+      <p style="font-size:13px; color:var(--muted); margin-bottom:12px;"><b style="color:var(--text);">Claude 프로젝트</b> 열고 아래 프롬프트를 붙여넣으면 제이든글로벌 스타일 대본이 생성됩니다!</p>
       <div class="prompt-box" id="promptBox"></div>
       <div class="prompt-actions">
         <button class="claude-btn" onclick="openClaude()">🤖 Claude 프로젝트 열기 →</button>
@@ -265,10 +231,10 @@ nav {
     </div>
   </div>
 
-  <!-- 빈 상태 -->
   <div class="empty-state" id="emptyState">
-    <div class="empty-icon">🎬</div>
+    <div style="font-size:40px; margin-bottom:12px;">🎬</div>
     <p>키워드를 입력하고 검색해보세요</p>
+    <p style="font-size:13px; margin-top:8px; color:var(--muted);">영어 키워드로 해외 트렌드를 먼저 분석하고<br>한국 최초 콘텐츠를 만들어보세요</p>
   </div>
 
 </div>
@@ -276,17 +242,35 @@ nav {
 <script>
 const $ = id => document.getElementById(id);
 let selectedType = 'long';
+let selectedLang = 'en';
 let selectedVideos = [];
 let analysisResults = {};
 let currentPrompt = '';
 
-function toggleApi() {
-  $('apiPanel').classList.toggle('open');
+function toggleApi() { $('apiPanel').classList.toggle('open'); }
+
+function setLang(lang, btn) {
+  selectedLang = lang;
+  document.querySelectorAll('.filter-btn.lang-ko, .filter-btn.lang-en, .filter-btn.lang-all').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+
+  const notice = $('langNotice');
+  notice.className = 'lang-notice ' + lang;
+  if (lang === 'ko') {
+    notice.style.display = 'block';
+    notice.innerHTML = '💡 <b>한국어 모드:</b> 한국어 아마존 영상을 검색해요. 검색 결과가 적을 수 있어요.';
+  } else if (lang === 'en') {
+    notice.style.display = 'block';
+    notice.innerHTML = '💡 <b>영어 모드:</b> 해외에서 이미 검증된 아마존 콘텐츠를 분석해서 한국 최초로 재구성할 수 있어요. 자막 추출률도 더 높아요.';
+  } else {
+    notice.style.display = 'block';
+    notice.innerHTML = '💡 <b>전체 모드:</b> 언어 구분 없이 조회수 높은 영상을 검색해요.';
+  }
 }
 
 function setType(t, btn) {
   selectedType = t;
-  document.querySelectorAll('.type-btn').forEach(b => b.classList.remove('active'));
+  document.querySelectorAll('.filter-btn.type-btn').forEach(b => b.classList.remove('active'));
   btn.classList.add('active');
 }
 
@@ -319,6 +303,14 @@ function formatDate(d) {
   return `${date.getFullYear()}.${String(date.getMonth()+1).padStart(2,'0')}.${String(date.getDate()).padStart(2,'0')}`;
 }
 
+function detectLang(title) {
+  const koreanRegex = /[가-힣]/;
+  const japaneseRegex = /[\u3040-\u30ff]/;
+  if (koreanRegex.test(title)) return 'ko';
+  if (japaneseRegex.test(title)) return 'ja';
+  return 'en';
+}
+
 async function doSearch() {
   const ytKey = $('ytKey').value.trim();
   const kw = $('keyword').value.trim();
@@ -340,8 +332,9 @@ async function doSearch() {
     oneYearAgo.setFullYear(oneYearAgo.getFullYear() - 1);
     const publishedAfter = oneYearAgo.toISOString();
     const dur = selectedType === 'short' ? '&videoDuration=short' : selectedType === 'long' ? '&videoDuration=long' : '';
+    const langParam = selectedLang === 'ko' ? '&relevanceLanguage=ko' : selectedLang === 'en' ? '&relevanceLanguage=en' : '';
 
-    const r1 = await fetch(`https://www.googleapis.com/youtube/v3/search?part=snippet&q=${encodeURIComponent(kw)}&type=video&maxResults=20&order=viewCount&relevanceLanguage=ko&publishedAfter=${publishedAfter}${dur}&key=${ytKey}`);
+    const r1 = await fetch(`https://www.googleapis.com/youtube/v3/search?part=snippet&q=${encodeURIComponent(kw)}&type=video&maxResults=20&order=viewCount&publishedAfter=${publishedAfter}${dur}${langParam}&key=${ytKey}`);
     const d1 = await r1.json();
     if (d1.error) throw new Error(d1.error.message);
 
@@ -351,13 +344,14 @@ async function doSearch() {
     const statsMap = {};
     d2.items.forEach(v => statsMap[v.id] = v.statistics);
 
-    const videos = d1.items.map(item => ({
+    let videos = d1.items.map(item => ({
       id: item.id.videoId,
       title: item.snippet.title,
       channel: item.snippet.channelTitle,
       thumb: item.snippet.thumbnails.medium?.url || '',
       views: parseInt(statsMap[item.id.videoId]?.viewCount || 0),
       publishedAt: item.snippet.publishedAt,
+      lang: detectLang(item.snippet.title),
     }))
     .filter(v => v.views >= 5000)
     .sort((a,b) => b.views - a.views)
@@ -384,10 +378,15 @@ async function doSearch() {
 function renderVideos(kw, videos) {
   const grid = $('videoGrid');
   grid.innerHTML = '';
-  $('resultMeta').innerHTML = `<b>"${kw}"</b> 검색결과 · 최근 1년 · 조회수 5천+ · 상위 ${videos.length}개`;
+
+  const langLabel = selectedLang === 'ko' ? '🇰🇷 한국어' : selectedLang === 'en' ? '🇺🇸 영어' : '전체';
+  $('resultMeta').innerHTML = `<b>"${kw}"</b> · ${langLabel} · 최근 1년 · 조회수 5천+ · 상위 ${videos.length}개`;
   $('videoSection').classList.remove('hidden');
 
   videos.forEach((v, i) => {
+    const langTagClass = v.lang === 'ko' ? 'ko' : v.lang === 'en' ? 'en' : 'other';
+    const langTagText = v.lang === 'ko' ? '🇰🇷 KO' : v.lang === 'en' ? '🇺🇸 EN' : '🌐';
+
     const el = document.createElement('div');
     el.className = 'video-card';
     el.id = 'vc-' + v.id;
@@ -395,8 +394,9 @@ function renderVideos(kw, videos) {
       <div class="video-thumb-wrap">
         <img class="video-thumb" src="${v.thumb}" alt="" loading="lazy" />
         <span class="rank-badge">${i+1}</span>
+        <span class="lang-tag ${langTagClass}">${langTagText}</span>
         <span class="check-badge">✓</span>
-        <span class="transcript-badge">자막완료</span>
+        <span class="transcript-ok">자막완료</span>
       </div>
       <div class="video-body">
         <div class="video-title">${v.title}</div>
@@ -430,12 +430,11 @@ async function analyzeVideos() {
   if (!supaKey) { $('apiPanel').classList.add('open'); return showError('searchError', 'Supadata API 키를 입력해주세요.'); }
 
   $('analysisSection').classList.remove('hidden');
-  $('analysisSection').querySelector('.section-title').textContent = '🧠 자막 분석 중...';
+  $('analysisSectionTitle').textContent = '🧠 자막 분석 중...';
   $('analysisList').innerHTML = '';
   $('generateBtn').classList.add('hidden');
   $('promptSection').classList.add('hidden');
   setStep(3);
-
   $('analysisSection').scrollIntoView({ behavior: 'smooth' });
 
   let doneCount = 0;
@@ -462,19 +461,19 @@ async function analyzeVideos() {
 
       if (data.content && data.content.length > 0) {
         const transcript = typeof data.content === 'string' ? data.content : data.content.map(c => c.text).join(' ');
-        const summary = extractKeyPoints(transcript, v.title);
-        analysisResults[v.id] = { title: v.title, channel: v.channel, views: v.views, summary };
+        const summary = extractKeyPoints(transcript, v.title, v.lang);
+        analysisResults[v.id] = { title: v.title, channel: v.channel, views: v.views, lang: v.lang, summary, transcript: transcript.slice(0, 5000) };
 
         $('st-'+v.id).textContent = '✓ 분석완료';
         $('st-'+v.id).className = 'analysis-status status-done';
         $('ac-'+v.id).textContent = summary;
-        item.classList.add('expanded', 'has-transcript');
+        item.classList.add('expanded');
         document.getElementById('vc-'+v.id)?.classList.add('has-transcript');
       } else {
         throw new Error('자막 없음');
       }
     } catch(e) {
-      analysisResults[v.id] = { title: v.title, channel: v.channel, views: v.views, summary: '자막을 가져올 수 없어요. (자막 미제공 영상)' };
+      analysisResults[v.id] = { title: v.title, channel: v.channel, views: v.views, lang: v.lang, summary: '자막을 가져올 수 없어요.' };
       $('st-'+v.id).textContent = '자막 없음';
       $('st-'+v.id).className = 'analysis-status status-error';
       $('ac-'+v.id).textContent = '이 영상은 자막이 제공되지 않아요. 제목 기반으로만 대본이 생성됩니다.';
@@ -483,50 +482,65 @@ async function analyzeVideos() {
 
     doneCount++;
     if (doneCount === selectedVideos.length) {
-      $('analysisSection').querySelector('.section-title').textContent = '✅ 자막 분석 완료';
+      $('analysisSectionTitle').textContent = '✅ 자막 분석 완료';
       $('generateBtn').classList.remove('hidden');
     }
   }
 }
 
-function extractKeyPoints(transcript, title) {
-  const text = transcript.slice(0, 3000);
-  const sentences = text.split(/[.!?。]\s+/).filter(s => s.length > 15).slice(0, 20);
-  const keywords = ['방법', '단계', '핵심', '중요', '절대', '반드시', '주의', '팁', '비법', '공개', '비밀', '수익', '매출', '셀러', '아마존', '상품', '리뷰', '광고', '소싱', '리서치'];
-  const keyParts = sentences.filter(s => keywords.some(k => s.includes(k))).slice(0, 5);
-  const result = keyParts.length > 0 ? keyParts.join('. ') : sentences.slice(0, 5).join('. ');
-  return `[핵심 내용]\n${result}\n\n[자막 길이] ${transcript.length}자`;
+function extractKeyPoints(transcript, title, lang) {
+  const text = transcript.slice(0, 4000);
+  const sentences = text.split(/[.!?\n。]\s*/).filter(s => s.trim().length > 20).slice(0, 30);
+
+  const enKeywords = ['step', 'important', 'key', 'tip', 'mistake', 'strategy', 'profit', 'revenue', 'keyword', 'ranking', 'review', 'product', 'listing', 'campaign', 'budget', 'bid', 'acos', 'roas', 'ppc', 'fba', 'seller'];
+  const koKeywords = ['방법', '단계', '핵심', '중요', '절대', '반드시', '주의', '팁', '수익', '매출', '셀러', '아마존', '상품', '리뷰', '광고', '소싱', '리서치', '키워드'];
+  const keywords = lang === 'ko' ? koKeywords : enKeywords;
+
+  const keyParts = sentences.filter(s => keywords.some(k => s.toLowerCase().includes(k))).slice(0, 6);
+  const result = keyParts.length > 0 ? keyParts.join('\n') : sentences.slice(0, 5).join('\n');
+
+  return `📌 핵심 내용:\n${result}\n\n📊 자막 길이: ${transcript.length}자`;
 }
 
 function generatePrompt() {
   const kw = $('keyword').value.trim();
   const typeLabel = selectedType === 'long' ? '롱폼(유튜브 본편 10~15분)' : selectedType === 'short' ? '숏폼(쇼츠/릴스 60초)' : '롱폼 + 숏폼';
+  const isEnMode = selectedLang === 'en';
 
   let videoAnalysis = '';
   Object.values(analysisResults).forEach((v, i) => {
-    videoAnalysis += `\n【영상 ${i+1}】 ${v.title} (${v.channel} · 조회수 ${formatViews(v.views)}회)\n${v.summary}\n`;
+    const langBadge = v.lang === 'ko' ? '🇰🇷' : v.lang === 'en' ? '🇺🇸' : '🌐';
+    videoAnalysis += `\n【영상 ${i+1}】 ${langBadge} ${v.title}\n채널: ${v.channel} · 조회수: ${formatViews(v.views)}회\n${v.summary}\n`;
   });
+
+  const enModeInstruction = isEnMode ? `
+⚡ 특별 지시사항 (해외 트렌드 한국화):
+- 위 영상들은 해외(영어권)에서 이미 검증된 콘텐츠입니다
+- 해외에서 조회수가 높은 이유(구조, 후킹, 정보 밀도)를 분석하세요
+- 해당 내용을 한국 아마존 셀러 관점으로 재구성하세요
+- 한국 시청자들이 아직 접하지 못한 정보를 한국 최초로 전달하는 느낌으로 작성하세요
+- 해외 사례나 수치는 한국 셀러가 이해할 수 있도록 맥락과 함께 설명하세요
+` : '';
 
   currentPrompt = `아래 유튜브 인기 영상들의 자막을 분석했습니다. 이 내용을 바탕으로 제이든글로벌 채널에 맞는 대본을 작성해주세요.
 
 ━━━━━━━━━━━━━━━━━━━━━
 검색 키워드: "${kw}"
 콘텐츠 유형: ${typeLabel}
+검색 언어: ${isEnMode ? '영어 (해외 트렌드 분석)' : '한국어'}
 분석한 영상 수: ${Object.keys(analysisResults).length}개
 ━━━━━━━━━━━━━━━━━━━━━
-
+${enModeInstruction}
 📊 인기 영상 자막 분석 결과:
 ${videoAnalysis}
 ━━━━━━━━━━━━━━━━━━━━━
 
-위 영상들이 조회수가 높은 이유를 분석하고,
-핵심 내용과 구조를 참고해서 제이든글로벌 채널 지침에 따라 대본을 작성해주세요.
-
 요청사항:
-1. 위 영상들에서 시청자들이 열광하는 포인트 파악
-2. 그 포인트를 제이든글로벌 스타일로 재구성
-3. 단순 요약이 아닌, 실제 촬영 가능한 완성형 대본으로 작성
-4. ${typeLabel} 형식으로 작성`;
+1. 위 영상들이 조회수가 높은 이유 (구조, 후킹 포인트, 정보 전달 방식) 분석
+2. 그 핵심을 제이든글로벌 스타일로 재구성
+3. 단순 번역/요약이 아닌, 실제 촬영 가능한 완성형 대본 작성
+4. ${typeLabel} 형식으로 작성
+5. 썸네일 문구 2~3개 + SEO 최적화 제목도 함께 제안해주세요`;
 
   $('promptBox').textContent = currentPrompt;
   $('promptSection').classList.remove('hidden');
@@ -572,9 +586,10 @@ window.onload = () => {
 };
 
 function updateApiStatus() {
-  const yt = $('ytKey').value.trim();
-  const su = $('supaKey').value.trim();
-  if (yt && su) { $('apiStatus').textContent = '✓ 저장됨'; $('apiStatus').style.color = 'var(--success)'; }
+  if ($('ytKey').value.trim() && $('supaKey').value.trim()) {
+    $('apiStatus').textContent = '✓ 저장됨';
+    $('apiStatus').style.color = 'var(--success)';
+  }
 }
 </script>
 </body>
