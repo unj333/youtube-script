@@ -3,238 +3,316 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>유튜브 대본 생성기 | 제이든글로벌</title>
+<title>키워드랩 - 유튜브 대본 생성기</title>
 <style>
-:root {
-  --bg: #0d1117;
-  --nav: #161b22;
-  --card: #1c2128;
-  --border: #30363d;
-  --text: #e6edf3;
-  --muted: #7d8590;
-  --primary: #4493f8;
-  --primary-dark: #1f6feb;
-  --success: #3fb950;
-  --warning: #d29922;
-  --danger: #f85149;
-  --radius: 10px;
-}
 * { box-sizing: border-box; margin: 0; padding: 0; }
-body { font-family: 'Pretendard', 'Apple SD Gothic Neo', -apple-system, system-ui, sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; }
+body { font-family: 'Pretendard', 'Apple SD Gothic Neo', -apple-system, system-ui, sans-serif; background: #f7f8fa; color: #1a1d23; font-size: 14px; min-height: 100vh; }
 
-nav { background: var(--nav); border-bottom: 1px solid var(--border); padding: 0 24px; height: 56px; display: flex; align-items: center; justify-content: space-between; position: sticky; top: 0; z-index: 100; }
-.nav-logo { font-size: 16px; font-weight: 700; display: flex; align-items: center; gap: 8px; }
-.dot { width: 8px; height: 8px; border-radius: 50%; background: var(--primary); display: inline-block; }
-.nav-badge { font-size: 12px; background: rgba(68,147,248,0.15); color: var(--primary); border: 1px solid rgba(68,147,248,0.3); border-radius: 999px; padding: 3px 10px; }
+/* 상단 네비 */
+.gnb { background: #fff; border-bottom: 1px solid #e5e7eb; height: 52px; display: flex; align-items: center; padding: 0 20px; gap: 0; position: sticky; top: 0; z-index: 100; box-shadow: 0 1px 4px rgba(0,0,0,0.06); }
+.gnb-logo { display: flex; align-items: center; gap: 6px; font-size: 17px; font-weight: 900; color: #1a1d23; margin-right: 24px; text-decoration: none; flex-shrink: 0; }
+.gnb-logo .logo-k { width: 30px; height: 30px; background: #4f46e5; border-radius: 7px; display: flex; align-items: center; justify-content: center; color: #fff; font-size: 16px; font-weight: 900; }
+.gnb-tabs { display: flex; gap: 0; height: 52px; flex: 1; }
+.gnb-tab { height: 52px; padding: 0 14px; display: flex; align-items: center; font-size: 13px; font-weight: 500; color: #6b7280; cursor: pointer; border-bottom: 2px solid transparent; transition: all 0.15s; white-space: nowrap; gap: 5px; }
+.gnb-tab:hover { color: #374151; }
+.gnb-tab.active { color: #4f46e5; border-bottom-color: #4f46e5; font-weight: 700; }
+.gnb-tab.highlight-orange { background: #fff7ed; color: #ea580c; border-radius: 6px; margin: 10px 4px; height: 32px; padding: 0 12px; border-bottom: none; font-weight: 700; font-size: 12px; }
+.gnb-tab.highlight-orange:hover { background: #ffedd5; }
+.gnb-tab.highlight-red { background: #fef2f2; color: #dc2626; border-radius: 6px; margin: 10px 4px; height: 32px; padding: 0 12px; border-bottom: none; font-weight: 700; font-size: 12px; }
+.gnb-tab.highlight-red:hover { background: #fee2e2; }
+.gnb-tab.api-dot { position: relative; }
+.gnb-tab.api-dot::before { content: '●'; font-size: 8px; color: #22c55e; margin-right: 4px; }
+.gnb-right { display: flex; align-items: center; gap: 8px; margin-left: auto; }
+.gnb-icon-btn { width: 32px; height: 32px; border-radius: 6px; border: 1px solid #e5e7eb; background: #fff; display: flex; align-items: center; justify-content: center; cursor: pointer; color: #6b7280; font-size: 14px; transition: all 0.15s; }
+.gnb-icon-btn:hover { background: #f3f4f6; color: #374151; }
 
-.wrap { max-width: 1100px; margin: 0 auto; padding: 32px 20px 80px; }
-
-.steps { display: flex; gap: 0; margin-bottom: 32px; }
-.step { flex: 1; text-align: center; position: relative; }
-.step::after { content: ''; position: absolute; top: 16px; left: 50%; width: 100%; height: 2px; background: var(--border); z-index: 0; }
-.step:last-child::after { display: none; }
-.step-circle { width: 32px; height: 32px; border-radius: 50%; background: var(--card); border: 2px solid var(--border); display: flex; align-items: center; justify-content: center; font-size: 13px; font-weight: 700; margin: 0 auto 8px; position: relative; z-index: 1; color: var(--muted); }
-.step.active .step-circle { background: var(--primary); border-color: var(--primary); color: #fff; }
-.step.done .step-circle { background: var(--success); border-color: var(--success); color: #fff; }
-.step-label { font-size: 12px; color: var(--muted); }
-.step.active .step-label { color: var(--primary); font-weight: 600; }
-.step.done .step-label { color: var(--success); }
-
-.section-title { font-size: 16px; font-weight: 700; margin-bottom: 14px; display: flex; align-items: center; gap: 8px; }
-.card { background: var(--card); border: 1px solid var(--border); border-radius: var(--radius); padding: 20px; margin-bottom: 16px; }
-
-.api-toggle { font-size: 13px; color: var(--muted); cursor: pointer; display: flex; align-items: center; gap: 6px; margin-bottom: 10px; }
-.api-toggle:hover { color: var(--text); }
-.api-panel { display: none; }
+/* API 패널 */
+.api-panel { background: #fff; border-bottom: 1px solid #e5e7eb; padding: 14px 20px; display: none; }
 .api-panel.open { display: block; }
-.api-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
-.field label { font-size: 12px; color: var(--muted); display: block; margin-bottom: 5px; }
-.field input { width: 100%; background: var(--bg); border: 1px solid var(--border); border-radius: 6px; color: var(--text); font-size: 13px; font-family: monospace; padding: 8px 12px; outline: none; }
-.field input:focus { border-color: var(--primary); }
+.api-row { display: flex; gap: 12px; max-width: 680px; }
+.api-field { flex: 1; }
+.api-field label { font-size: 11px; font-weight: 700; color: #9ca3af; text-transform: uppercase; letter-spacing: 0.05em; display: block; margin-bottom: 4px; }
+.api-input { width: 100%; border: 1px solid #e5e7eb; border-radius: 6px; color: #1a1d23; font-size: 12px; font-family: monospace; padding: 7px 10px; outline: none; background: #f9fafb; }
+.api-input:focus { border-color: #4f46e5; background: #fff; }
+.api-save-row { margin-top: 8px; font-size: 12px; }
+.api-ok { color: #16a34a; }
+.api-warn { color: #d97706; }
 
-.search-row { display: flex; gap: 10px; margin-bottom: 12px; }
-.search-input { flex: 1; background: var(--card); border: 1px solid var(--border); border-radius: var(--radius); color: var(--text); font-size: 15px; padding: 12px 16px; outline: none; transition: border-color 0.2s; }
-.search-input:focus { border-color: var(--primary); }
-.search-input::placeholder { color: var(--muted); }
+/* 서브 헤더 */
+.sub-header { background: #fff; border-bottom: 1px solid #e5e7eb; padding: 16px 20px; }
+.sub-back { display: inline-flex; align-items: center; gap: 5px; font-size: 13px; color: #6b7280; cursor: pointer; margin-bottom: 10px; }
+.sub-back:hover { color: #374151; }
+.sub-title { font-size: 20px; font-weight: 800; display: flex; align-items: center; gap: 8px; margin-bottom: 4px; }
+.sub-desc { font-size: 13px; color: #6b7280; margin-bottom: 12px; }
+.sub-action-row { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 14px; }
+.sub-action-btn { display: inline-flex; align-items: center; gap: 5px; padding: 7px 14px; border-radius: 7px; font-size: 13px; font-weight: 600; cursor: pointer; border: 1.5px solid transparent; transition: all 0.15s; }
+.sub-action-btn.primary { background: #4f46e5; color: #fff; }
+.sub-action-btn.primary:hover { background: #3730a3; }
+.sub-action-btn.outline { background: #fff; color: #374151; border-color: #e5e7eb; }
+.sub-action-btn.outline:hover { background: #f9fafb; }
 
-/* 필터 행 */
-.filter-row { display: flex; gap: 16px; flex-wrap: wrap; margin-bottom: 12px; align-items: center; }
-.filter-group { display: flex; gap: 6px; align-items: center; }
-.filter-label { font-size: 12px; color: var(--muted); white-space: nowrap; }
-.filter-btn { background: transparent; border: 1px solid var(--border); border-radius: 999px; color: var(--muted); font-size: 12px; padding: 5px 12px; cursor: pointer; transition: all 0.15s; white-space: nowrap; }
-.filter-btn:hover { color: var(--text); }
-.filter-btn.active { font-weight: 600; }
-.filter-btn.lang-ko.active { border-color: #3fb950; color: #3fb950; background: rgba(63,185,80,0.1); }
-.filter-btn.lang-en.active { border-color: #4493f8; color: #4493f8; background: rgba(68,147,248,0.1); }
-.filter-btn.lang-all.active { border-color: var(--warning); color: var(--warning); background: rgba(210,153,34,0.1); }
-.filter-btn.type-btn.active { border-color: var(--primary); color: var(--primary); background: rgba(68,147,248,0.1); }
+/* 검색바 */
+.search-bar { display: flex; gap: 8px; align-items: center; }
+.search-input-wrap { flex: 1; position: relative; }
+.search-input { width: 100%; height: 40px; border: 1.5px solid #e5e7eb; border-radius: 8px; padding: 0 14px; font-size: 14px; color: #1a1d23; outline: none; background: #fff; transition: border-color 0.15s; }
+.search-input:focus { border-color: #4f46e5; }
+.search-input::placeholder { color: #b0b7c3; }
+.sort-btns { display: flex; gap: 4px; }
+.sort-btn { height: 40px; padding: 0 14px; border-radius: 8px; border: 1.5px solid #e5e7eb; background: #fff; font-size: 13px; font-weight: 500; color: #6b7280; cursor: pointer; transition: all 0.15s; white-space: nowrap; }
+.sort-btn:hover { border-color: #c7d2fe; color: #4f46e5; }
+.sort-btn.active { background: #4f46e5; border-color: #4f46e5; color: #fff; font-weight: 700; }
+.search-btn { height: 40px; padding: 0 20px; border-radius: 8px; border: none; background: #4f46e5; color: #fff; font-size: 14px; font-weight: 700; cursor: pointer; transition: background 0.15s; white-space: nowrap; }
+.search-btn:hover { background: #3730a3; }
 
-/* 언어 모드 안내 */
-.lang-notice { font-size: 12px; padding: 8px 12px; border-radius: 6px; margin-bottom: 12px; display: none; }
-.lang-notice.ko { background: rgba(63,185,80,0.08); border: 1px solid rgba(63,185,80,0.2); color: #3fb950; }
-.lang-notice.en { background: rgba(68,147,248,0.08); border: 1px solid rgba(68,147,248,0.2); color: var(--primary); }
-.lang-notice.all { background: rgba(210,153,34,0.08); border: 1px solid rgba(210,153,34,0.2); color: var(--warning); }
+/* 필터 */
+.filter-row { display: flex; gap: 16px; align-items: center; flex-wrap: wrap; margin-top: 10px; }
+.filter-group { display: flex; gap: 5px; align-items: center; }
+.filter-label { font-size: 12px; color: #9ca3af; font-weight: 600; }
+.filter-pill { padding: 4px 11px; border-radius: 999px; border: 1px solid #e5e7eb; background: #fff; font-size: 12px; color: #6b7280; cursor: pointer; transition: all 0.15s; font-weight: 500; }
+.filter-pill:hover { border-color: #c7d2fe; color: #4f46e5; }
+.filter-pill.on-ko { border-color: #16a34a; color: #16a34a; background: #f0fdf4; font-weight: 700; }
+.filter-pill.on-en { border-color: #4f46e5; color: #4f46e5; background: #eef2ff; font-weight: 700; }
+.filter-pill.on-all { border-color: #d97706; color: #d97706; background: #fffbeb; font-weight: 700; }
+.filter-pill.on-type { border-color: #4f46e5; color: #4f46e5; background: #eef2ff; font-weight: 700; }
 
-.btn { background: var(--primary); border: none; border-radius: var(--radius); color: #fff; cursor: pointer; font-size: 14px; font-weight: 600; padding: 11px 20px; transition: background 0.2s, transform 0.1s; white-space: nowrap; display: inline-flex; align-items: center; gap: 6px; }
-.btn:hover { background: var(--primary-dark); }
-.btn:active { transform: scale(0.98); }
-.btn:disabled { opacity: 0.4; cursor: not-allowed; transform: none; }
-.btn-success { background: var(--success); }
-.btn-success:hover { background: #2ea043; }
-.btn-ghost { background: transparent; border: 1px solid var(--border); color: var(--muted); }
-.btn-ghost:hover { background: var(--card); color: var(--text); }
+/* 메인 */
+.main { max-width: 1200px; margin: 0 auto; padding: 20px; }
 
-.video-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 12px; }
-.video-card { background: var(--card); border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden; cursor: pointer; transition: border-color 0.15s, transform 0.15s; position: relative; }
-.video-card:hover { border-color: var(--primary); transform: translateY(-2px); }
-.video-card.selected { border-color: var(--primary); box-shadow: 0 0 0 2px rgba(68,147,248,0.3); }
-.video-thumb-wrap { position: relative; }
-.video-thumb { width: 100%; aspect-ratio: 16/9; object-fit: cover; background: var(--border); display: block; }
-.rank-badge { position: absolute; top: 6px; left: 6px; background: rgba(0,0,0,0.75); color: #fff; font-size: 11px; font-weight: 700; padding: 2px 7px; border-radius: 4px; }
-.lang-tag { position: absolute; top: 6px; right: 6px; font-size: 10px; font-weight: 700; padding: 2px 6px; border-radius: 4px; }
-.lang-tag.ko { background: rgba(63,185,80,0.85); color: #fff; }
-.lang-tag.en { background: rgba(68,147,248,0.85); color: #fff; }
-.lang-tag.other { background: rgba(128,128,128,0.85); color: #fff; }
-.check-badge { position: absolute; bottom: 6px; right: 6px; width: 22px; height: 22px; background: var(--primary); border-radius: 50%; display: none; align-items: center; justify-content: center; font-size: 11px; color: #fff; font-weight: 700; }
-.video-card.selected .check-badge { display: flex; }
-.transcript-ok { position: absolute; bottom: 6px; left: 6px; background: rgba(63,185,80,0.9); color: #fff; font-size: 10px; font-weight: 700; padding: 2px 6px; border-radius: 4px; display: none; }
+/* 결과 헤더 */
+.result-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px; flex-wrap: wrap; gap: 10px; }
+.result-count { font-size: 13px; color: #6b7280; }
+.result-count b { color: #1a1d23; }
+.result-tools { display: flex; gap: 6px; }
+.result-tool-btn { display: inline-flex; align-items: center; gap: 4px; padding: 5px 11px; border-radius: 6px; border: 1px solid #e5e7eb; background: #fff; font-size: 12px; color: #6b7280; cursor: pointer; transition: all 0.15s; font-weight: 500; }
+.result-tool-btn:hover { border-color: #c7d2fe; color: #4f46e5; background: #eef2ff; }
+.result-tool-btn.primary { background: #4f46e5; color: #fff; border-color: #4f46e5; }
+.result-tool-btn.primary:hover { background: #3730a3; }
+
+/* 영상 그리드 */
+.video-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; }
+@media (max-width: 1000px) { .video-grid { grid-template-columns: repeat(3, 1fr); } }
+@media (max-width: 700px) { .video-grid { grid-template-columns: repeat(2, 1fr); } }
+
+.video-card { background: #fff; border: 1.5px solid #e5e7eb; border-radius: 10px; overflow: hidden; cursor: pointer; transition: all 0.15s; position: relative; box-shadow: 0 1px 3px rgba(0,0,0,0.06); }
+.video-card:hover { border-color: #a5b4fc; box-shadow: 0 4px 12px rgba(79,70,229,0.12); transform: translateY(-2px); }
+.video-card.selected { border-color: #4f46e5; box-shadow: 0 0 0 3px rgba(79,70,229,0.15), 0 4px 12px rgba(79,70,229,0.12); }
+.video-thumb-wrap { position: relative; background: #f0f0f0; }
+.video-thumb { width: 100%; aspect-ratio: 16/9; object-fit: cover; display: block; }
+.rank-num { position: absolute; top: 0; left: 0; background: rgba(0,0,0,0.65); color: #fff; font-size: 11px; font-weight: 800; padding: 3px 8px; border-bottom-right-radius: 6px; }
+.lang-flag { position: absolute; top: 6px; right: 6px; font-size: 10px; font-weight: 700; padding: 2px 6px; border-radius: 4px; }
+.lang-flag.ko { background: rgba(22,163,74,0.85); color: #fff; }
+.lang-flag.en { background: rgba(79,70,229,0.85); color: #fff; }
+.lang-flag.other { background: rgba(107,114,128,0.75); color: #fff; }
+.check-overlay { position: absolute; inset: 0; background: rgba(79,70,229,0.08); display: none; align-items: center; justify-content: center; }
+.check-circle { width: 36px; height: 36px; background: #4f46e5; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: #fff; font-size: 18px; font-weight: 900; box-shadow: 0 2px 8px rgba(0,0,0,0.2); }
+.video-card.selected .check-overlay { display: flex; }
+.transcript-ok { position: absolute; bottom: 6px; left: 6px; background: rgba(22,163,74,0.9); color: #fff; font-size: 9px; font-weight: 700; padding: 2px 6px; border-radius: 4px; display: none; }
 .video-card.has-transcript .transcript-ok { display: block; }
-.video-body { padding: 10px 12px; }
-.video-title { font-size: 13px; font-weight: 600; line-height: 1.4; margin-bottom: 5px; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
-.video-channel { font-size: 12px; color: var(--muted); }
-.video-stats { display: flex; gap: 8px; margin-top: 4px; font-size: 11px; }
-.video-views { color: var(--primary); font-weight: 600; }
-.video-date { color: var(--muted); }
+.video-info { padding: 10px 12px 12px; }
+.video-title { font-size: 13px; font-weight: 600; line-height: 1.4; margin-bottom: 5px; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; color: #1a1d23; }
+.video-channel { font-size: 11px; color: #9ca3af; margin-bottom: 5px; }
+.video-stats { display: flex; justify-content: space-between; align-items: center; }
+.video-views { font-size: 12px; font-weight: 700; color: #4f46e5; }
+.video-date { font-size: 10px; color: #c4c9d4; }
 
-.analysis-item { background: var(--card); border: 1px solid var(--border); border-radius: var(--radius); padding: 14px 16px; margin-bottom: 10px; }
-.analysis-header { display: flex; align-items: center; gap: 10px; margin-bottom: 8px; }
-.analysis-thumb { width: 48px; height: 27px; object-fit: cover; border-radius: 4px; background: var(--border); }
-.analysis-title { font-size: 13px; font-weight: 600; flex: 1; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-.analysis-status { font-size: 12px; padding: 2px 8px; border-radius: 999px; font-weight: 600; white-space: nowrap; }
-.status-loading { background: rgba(210,153,34,0.15); color: var(--warning); }
-.status-done { background: rgba(63,185,80,0.15); color: var(--success); }
-.status-error { background: rgba(248,81,73,0.15); color: var(--danger); }
-.analysis-content { font-size: 12px; color: var(--muted); line-height: 1.6; border-top: 1px solid var(--border); padding-top: 8px; display: none; }
-.analysis-item.expanded .analysis-content { display: block; }
+/* 스텝 인디케이터 */
+.step-bar { display: flex; align-items: center; background: #fff; border: 1px solid #e5e7eb; border-radius: 10px; padding: 14px 20px; margin-bottom: 16px; box-shadow: 0 1px 3px rgba(0,0,0,0.05); }
+.step-item { display: flex; align-items: center; gap: 7px; }
+.step-dot { width: 26px; height: 26px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 800; border: 2px solid #e5e7eb; color: #9ca3af; background: #fff; flex-shrink: 0; }
+.step-dot.active { background: #4f46e5; border-color: #4f46e5; color: #fff; }
+.step-dot.done { background: #16a34a; border-color: #16a34a; color: #fff; }
+.step-txt { font-size: 12px; color: #9ca3af; font-weight: 500; white-space: nowrap; }
+.step-txt.active { color: #4f46e5; font-weight: 700; }
+.step-txt.done { color: #16a34a; }
+.step-line { flex: 1; height: 2px; background: #e5e7eb; margin: 0 10px; }
+.step-line.done { background: #16a34a; }
 
-.prompt-box { background: var(--bg); border: 1px solid var(--border); border-radius: var(--radius); padding: 16px; font-size: 13px; line-height: 1.8; white-space: pre-wrap; max-height: 300px; overflow-y: auto; color: var(--muted); }
-.prompt-actions { display: flex; gap: 10px; margin-top: 12px; align-items: center; flex-wrap: wrap; }
-.claude-btn { background: #cc785c; border: none; border-radius: var(--radius); color: #fff; font-size: 14px; font-weight: 700; padding: 12px 24px; cursor: pointer; display: inline-flex; align-items: center; gap: 8px; transition: background 0.2s; }
-.claude-btn:hover { background: #b5674d; }
+/* 분석 카드 */
+.section-box { background: #fff; border: 1px solid #e5e7eb; border-radius: 10px; padding: 18px 20px; margin-bottom: 16px; box-shadow: 0 1px 3px rgba(0,0,0,0.05); }
+.section-head { display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px; }
+.section-ttl { font-size: 15px; font-weight: 700; }
+.analysis-card { border: 1px solid #e5e7eb; border-radius: 8px; padding: 12px 14px; margin-bottom: 8px; background: #f9fafb; }
+.analysis-card-head { display: flex; align-items: center; gap: 10px; }
+.a-thumb { width: 60px; height: 34px; object-fit: cover; border-radius: 5px; background: #e5e7eb; flex-shrink: 0; }
+.a-title { font-size: 12px; font-weight: 600; flex: 1; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.a-status { font-size: 11px; padding: 2px 9px; border-radius: 999px; font-weight: 700; white-space: nowrap; }
+.a-status.loading { background: #fffbeb; color: #d97706; border: 1px solid #fcd34d; }
+.a-status.done { background: #f0fdf4; color: #16a34a; border: 1px solid #86efac; }
+.a-status.error { background: #fef2f2; color: #dc2626; border: 1px solid #fca5a5; }
+.a-body { font-size: 11px; color: #6b7280; line-height: 1.7; border-top: 1px solid #e5e7eb; padding-top: 10px; margin-top: 10px; display: none; white-space: pre-wrap; }
+.analysis-card.open .a-body { display: block; }
 
-.loading-wrap { text-align: center; padding: 50px 20px; }
-.spinner { width: 36px; height: 36px; border: 3px solid var(--border); border-top-color: var(--primary); border-radius: 50%; animation: spin 0.8s linear infinite; margin: 0 auto 16px; }
+/* 프롬프트 */
+.prompt-box { background: #f9fafb; border: 1px solid #e5e7eb; border-radius: 8px; padding: 14px 16px; font-size: 12px; line-height: 1.8; white-space: pre-wrap; max-height: 260px; overflow-y: auto; color: #6b7280; }
+.prompt-actions { display: flex; gap: 8px; margin-top: 12px; align-items: center; flex-wrap: wrap; }
+.claude-btn { background: #7c3aed; border: none; border-radius: 8px; color: #fff; font-size: 13px; font-weight: 700; padding: 9px 18px; cursor: pointer; display: inline-flex; align-items: center; gap: 6px; }
+.claude-btn:hover { background: #6d28d9; }
+
+/* 버튼 공통 */
+.btn { display: inline-flex; align-items: center; gap: 5px; border: none; border-radius: 7px; cursor: pointer; font-size: 13px; font-weight: 600; padding: 8px 16px; transition: all 0.15s; white-space: nowrap; }
+.btn-indigo { background: #4f46e5; color: #fff; }
+.btn-indigo:hover { background: #3730a3; }
+.btn-green { background: #16a34a; color: #fff; }
+.btn-green:hover { background: #15803d; }
+.btn-ghost { background: #fff; color: #6b7280; border: 1px solid #e5e7eb; }
+.btn-ghost:hover { color: #374151; border-color: #d1d5db; }
+.btn:disabled { opacity: 0.45; cursor: not-allowed; }
+
+/* 로딩 */
+.loading-box { text-align: center; padding: 52px 20px; background: #fff; border: 1px solid #e5e7eb; border-radius: 10px; margin-bottom: 16px; }
+.spinner { width: 30px; height: 30px; border: 3px solid #e5e7eb; border-top-color: #4f46e5; border-radius: 50%; animation: spin 0.7s linear infinite; margin: 0 auto 12px; }
 @keyframes spin { to { transform: rotate(360deg); } }
 
-.error-box { background: rgba(248,81,73,0.1); border: 1px solid rgba(248,81,73,0.3); border-radius: var(--radius); color: #ff7b72; font-size: 13px; padding: 12px 16px; margin-top: 10px; display: none; }
-.empty-state { text-align: center; padding: 50px 20px; color: var(--muted); }
-.result-meta { font-size: 13px; color: var(--muted); margin-bottom: 12px; }
-.result-meta b { color: var(--text); }
-.hidden { display: none !important; }
+/* 빈 상태 */
+.empty-box { text-align: center; padding: 64px 20px; background: #fff; border: 1px solid #e5e7eb; border-radius: 10px; }
+.empty-icon { font-size: 52px; margin-bottom: 14px; }
+.empty-title { font-size: 16px; font-weight: 700; margin-bottom: 6px; }
+.empty-desc { font-size: 13px; color: #9ca3af; line-height: 1.7; }
 
-@media (max-width: 600px) {
-  .api-grid { grid-template-columns: 1fr; }
-  .video-grid { grid-template-columns: repeat(2, 1fr); }
-  .filter-row { gap: 8px; }
-}
+/* 언어 팁 */
+.lang-tip { font-size: 12px; padding: 7px 12px; border-radius: 6px; margin-top: 10px; display: none; }
+.lang-tip.en { background: #eef2ff; color: #4f46e5; border: 1px solid #c7d2fe; }
+.lang-tip.ko { background: #f0fdf4; color: #16a34a; border: 1px solid #86efac; }
+.lang-tip.all { background: #fffbeb; color: #d97706; border: 1px solid #fcd34d; }
+
+.error-msg { font-size: 13px; color: #dc2626; background: #fef2f2; border: 1px solid #fca5a5; border-radius: 6px; padding: 8px 12px; margin-top: 10px; display: none; }
+.hidden { display: none !important; }
 </style>
 </head>
 <body>
 
-<nav>
-  <div class="nav-logo"><span class="dot"></span> 유튜브 대본 생성기</div>
-  <span class="nav-badge">제이든글로벌</span>
-</nav>
-
-<div class="wrap">
-
-  <div class="steps">
-    <div class="step active" id="step1"><div class="step-circle">1</div><div class="step-label">키워드 검색</div></div>
-    <div class="step" id="step2"><div class="step-circle">2</div><div class="step-label">영상 선택</div></div>
-    <div class="step" id="step3"><div class="step-circle">3</div><div class="step-label">자막 분석</div></div>
-    <div class="step" id="step4"><div class="step-circle">4</div><div class="step-label">대본 생성</div></div>
+<!-- GNB -->
+<div class="gnb">
+  <a class="gnb-logo" href="#">
+    <div class="logo-k">K</div>
+    키워드랩
+  </a>
+  <div class="gnb-tabs">
+    <div class="gnb-tab">☆ 내 키워드</div>
+    <div class="gnb-tab">↑↓ 비교</div>
+    <div class="gnb-tab highlight-orange">🔥 실시간 급등</div>
+    <div class="gnb-tab highlight-red active">▶ 유튜브 영상</div>
+    <div class="gnb-tab api-dot">검색량 API</div>
+    <div class="gnb-tab api-dot">트렌드 API</div>
   </div>
+  <div class="gnb-right">
+    <div class="gnb-icon-btn" onclick="toggleApi()" title="API 설정">⚙</div>
+    <div class="gnb-icon-btn" title="다크모드">☾</div>
+  </div>
+</div>
 
-  <div class="api-toggle" onclick="toggleApi()">⚙️ API 설정 <span id="apiStatus" style="color:var(--warning);">⚠ 키 입력 필요</span></div>
-  <div class="api-panel" id="apiPanel">
-    <div class="card">
-      <div class="api-grid">
-        <div class="field"><label>YouTube Data API 키</label><input type="password" id="ytKey" placeholder="AIzaSy..." /></div>
-        <div class="field"><label>Supadata API 키 (자막 추출)</label><input type="password" id="supaKey" placeholder="sd_9..." /></div>
-      </div>
+<!-- API 패널 -->
+<div class="api-panel" id="apiPanel">
+  <div class="api-row">
+    <div class="api-field">
+      <label>YouTube Data API 키</label>
+      <input type="password" class="api-input" id="ytKey" placeholder="AIzaSy..." />
+    </div>
+    <div class="api-field">
+      <label>Supadata API 키 (자막 추출)</label>
+      <input type="password" class="api-input" id="supaKey" placeholder="sd_9..." />
     </div>
   </div>
+  <div class="api-save-row" id="apiStatusText">⚠ API 키를 입력해주세요</div>
+</div>
 
-  <div class="section-title">🔍 키워드 검색</div>
-  <div class="search-row">
-    <input type="text" class="search-input" id="keyword" placeholder="예: amazon PPC, amazon seller, 아마존 셀러..." onkeydown="if(event.key==='Enter') doSearch()" />
-    <button class="btn" onclick="doSearch()">검색</button>
+<!-- 서브 헤더 -->
+<div class="sub-header">
+  <div class="sub-back">← 키워드랩으로 돌아가기</div>
+  <div class="sub-title">▶ 유튜브 <span style="color:#dc2626;">영상</span> 모아보기</div>
+  <div class="sub-desc">키워드를 입력하면 관련 영상을 조회수 기준으로 최대 12개까지 모아 보여줍니다.</div>
+  <div class="sub-action-row">
+    <div class="sub-action-btn primary" onclick="generatePrompt()" id="scriptBtn" style="display:none;">✦ 클로드로 대본 만들기</div>
+    <div class="sub-action-btn outline" onclick="openClaude()" id="claudePageBtn" style="display:none;">📄 생성된 대본 페이지</div>
   </div>
-
-  <!-- 필터 행 -->
+  <div class="search-bar">
+    <input type="text" class="search-input" id="keyword" placeholder="키워드 입력 (예: amazon PPC, amazon FBA, 아마존 셀러...)" onkeydown="if(event.key==='Enter') doSearch()" style="flex:1;" />
+    <div class="sort-btns">
+      <button class="sort-btn active" onclick="setSort('related',this)">관련도순</button>
+      <button class="sort-btn" onclick="setSort('views',this)">조회수 높은순</button>
+      <button class="sort-btn" onclick="setSort('recent',this)">최신순</button>
+    </div>
+    <button class="search-btn" onclick="doSearch()">검색</button>
+  </div>
   <div class="filter-row">
     <div class="filter-group">
-      <span class="filter-label">🌐 언어:</span>
-      <button class="filter-btn lang-ko" onclick="setLang('ko',this)">🇰🇷 한국어</button>
-      <button class="filter-btn lang-en active" onclick="setLang('en',this)">🇺🇸 영어 (해외 트렌드)</button>
-      <button class="filter-btn lang-all" onclick="setLang('all',this)">전체</button>
+      <span class="filter-label">🌐 언어</span>
+      <button class="filter-pill" onclick="setLang('ko',this)" id="pl-ko">🇰🇷 한국어</button>
+      <button class="filter-pill on-en" onclick="setLang('en',this)" id="pl-en">🇺🇸 영어</button>
+      <button class="filter-pill" onclick="setLang('all',this)" id="pl-all">전체</button>
     </div>
     <div class="filter-group">
-      <span class="filter-label">📹 유형:</span>
-      <button class="filter-btn type-btn active" onclick="setType('long',this)">롱폼</button>
-      <button class="filter-btn type-btn" onclick="setType('short',this)">숏폼</button>
-      <button class="filter-btn type-btn" onclick="setType('both',this)">둘 다</button>
+      <span class="filter-label">📹 유형</span>
+      <button class="filter-pill on-type" onclick="setType('long',this)" id="pl-long">롱폼</button>
+      <button class="filter-pill" onclick="setType('short',this)" id="pl-short">숏폼</button>
+      <button class="filter-pill" onclick="setType('both',this)" id="pl-both">둘 다</button>
     </div>
   </div>
+  <div class="lang-tip en" id="langTip" style="display:block;">💡 <b>영어 모드:</b> 해외에서 검증된 아마존 콘텐츠를 분석해서 한국 최초로 재구성할 수 있어요.</div>
+  <div class="error-msg" id="searchError"></div>
+</div>
 
-  <!-- 언어 모드 안내 -->
-  <div class="lang-notice en" id="langNotice" style="display:block;">
-    💡 <b>영어 모드:</b> 해외에서 이미 검증된 아마존 콘텐츠를 분석해서 한국 최초로 재구성할 수 있어요. 자막 추출률도 더 높아요.
+<div class="main">
+
+  <!-- 스텝 바 -->
+  <div class="step-bar">
+    <div class="step-item"><div class="step-dot active" id="sc1">1</div><div class="step-txt active" id="sn1">키워드 검색</div></div>
+    <div class="step-line" id="sl1"></div>
+    <div class="step-item"><div class="step-dot" id="sc2">2</div><div class="step-txt" id="sn2">영상 선택</div></div>
+    <div class="step-line" id="sl2"></div>
+    <div class="step-item"><div class="step-dot" id="sc3">3</div><div class="step-txt" id="sn3">자막 분석</div></div>
+    <div class="step-line" id="sl3"></div>
+    <div class="step-item"><div class="step-dot" id="sc4">4</div><div class="step-txt" id="sn4">대본 생성</div></div>
   </div>
 
-  <div class="error-box" id="searchError"></div>
-
-  <div class="hidden" id="loadingArea">
-    <div class="loading-wrap">
-      <div class="spinner"></div>
-      <p id="loadingMsg" style="font-size:14px; color:var(--muted);">검색 중...</p>
-    </div>
+  <!-- 로딩 -->
+  <div class="loading-box hidden" id="loadingBox">
+    <div class="spinner"></div>
+    <div style="font-size:14px; font-weight:600;" id="loadingMsg">검색 중...</div>
   </div>
 
-  <div class="hidden" id="videoSection">
-    <div class="section-title">📊 검색 결과 <span style="font-size:13px; font-weight:400; color:var(--muted);">— 영상을 선택하세요 (최대 5개)</span></div>
-    <p class="result-meta" id="resultMeta"></p>
-    <div class="video-grid" id="videoGrid"></div>
-    <div style="display:flex; justify-content:flex-end; margin-top:12px;">
-      <button class="btn btn-success hidden" id="analyzeBtn" onclick="analyzeVideos()">🔍 선택 영상 자막 분석하기</button>
-    </div>
-  </div>
-
-  <div class="hidden" id="analysisSection">
-    <div class="section-title" id="analysisSectionTitle">🧠 자막 분석 중...</div>
-    <div id="analysisList"></div>
-    <div style="display:flex; justify-content:flex-end; margin-top:12px;">
-      <button class="btn btn-success hidden" id="generateBtn" onclick="generatePrompt()">✨ 대본 프롬프트 생성하기</button>
-    </div>
-  </div>
-
-  <div class="hidden" id="promptSection">
-    <div class="section-title">📋 Claude 프로젝트에 붙여넣기</div>
-    <div class="card">
-      <p style="font-size:13px; color:var(--muted); margin-bottom:12px;"><b style="color:var(--text);">Claude 프로젝트</b> 열고 아래 프롬프트를 붙여넣으면 제이든글로벌 스타일 대본이 생성됩니다!</p>
-      <div class="prompt-box" id="promptBox"></div>
-      <div class="prompt-actions">
-        <button class="claude-btn" onclick="openClaude()">🤖 Claude 프로젝트 열기 →</button>
-        <button class="btn btn-ghost" onclick="copyPrompt()">복사</button>
-        <button class="btn btn-ghost" onclick="resetAll()">← 처음부터</button>
+  <!-- 결과 -->
+  <div class="hidden" id="resultSection">
+    <div class="result-header">
+      <div class="result-count" id="resultCount"></div>
+      <div class="result-tools">
+        <button class="result-tool-btn" onclick="refreshSearch()">↺ 최신으로</button>
+        <button class="result-tool-btn" onclick="copyUrls()">🔗 URL 복사</button>
+        <button class="result-tool-btn" onclick="exportCsv()">↓ CSV</button>
+        <button class="result-tool-btn primary hidden" id="analyzeBtn" onclick="analyzeVideos()">🔍 자막 분석</button>
       </div>
     </div>
+    <div class="video-grid" id="videoGrid"></div>
   </div>
 
-  <div class="empty-state" id="emptyState">
-    <div style="font-size:40px; margin-bottom:12px;">🎬</div>
-    <p>키워드를 입력하고 검색해보세요</p>
-    <p style="font-size:13px; margin-top:8px; color:var(--muted);">영어 키워드로 해외 트렌드를 먼저 분석하고<br>한국 최초 콘텐츠를 만들어보세요</p>
+  <!-- 분석 섹션 -->
+  <div class="section-box hidden" id="analysisSection">
+    <div class="section-head">
+      <div class="section-ttl" id="analysisTtl">🧠 자막 분석 중...</div>
+      <button class="btn btn-green hidden" id="generateBtn" onclick="generatePrompt()">✨ 대본 프롬프트 생성</button>
+    </div>
+    <div id="analysisList"></div>
+  </div>
+
+  <!-- 프롬프트 섹션 -->
+  <div class="section-box hidden" id="promptSection">
+    <div class="section-head">
+      <div class="section-ttl">📋 Claude 프로젝트에 붙여넣기</div>
+      <button class="btn btn-ghost" onclick="resetAll()">← 처음부터</button>
+    </div>
+    <p style="font-size:13px; color:#6b7280; margin-bottom:12px;"><b style="color:#1a1d23;">Claude 프로젝트</b>를 열고 Ctrl+V로 붙여넣으면 제이든글로벌 스타일 대본이 생성됩니다!</p>
+    <div class="prompt-box" id="promptBox"></div>
+    <div class="prompt-actions">
+      <button class="claude-btn" onclick="openClaude()">🤖 Claude 프로젝트 열기 →</button>
+      <button class="btn btn-ghost" onclick="copyPrompt()" id="copyBtn">복사</button>
+    </div>
+  </div>
+
+  <!-- 빈 상태 -->
+  <div class="empty-box" id="emptyBox">
+    <div class="empty-icon">🎬</div>
+    <div class="empty-title">키워드를 입력하고 검색해보세요</div>
+    <div class="empty-desc">영어 키워드로 해외 인기 아마존 영상을 분석하고<br>제이든글로벌 스타일 대본을 자동으로 만들어드립니다</div>
   </div>
 
 </div>
@@ -243,48 +321,54 @@ nav { background: var(--nav); border-bottom: 1px solid var(--border); padding: 0
 const $ = id => document.getElementById(id);
 let selectedType = 'long';
 let selectedLang = 'en';
+let selectedSort = 'related';
 let selectedVideos = [];
 let analysisResults = {};
 let currentPrompt = '';
+let lastVideos = [];
 
 function toggleApi() { $('apiPanel').classList.toggle('open'); }
 
 function setLang(lang, btn) {
   selectedLang = lang;
-  document.querySelectorAll('.filter-btn.lang-ko, .filter-btn.lang-en, .filter-btn.lang-all').forEach(b => b.classList.remove('active'));
-  btn.classList.add('active');
-
-  const notice = $('langNotice');
-  notice.className = 'lang-notice ' + lang;
-  if (lang === 'ko') {
-    notice.style.display = 'block';
-    notice.innerHTML = '💡 <b>한국어 모드:</b> 한국어 아마존 영상을 검색해요. 검색 결과가 적을 수 있어요.';
-  } else if (lang === 'en') {
-    notice.style.display = 'block';
-    notice.innerHTML = '💡 <b>영어 모드:</b> 해외에서 이미 검증된 아마존 콘텐츠를 분석해서 한국 최초로 재구성할 수 있어요. 자막 추출률도 더 높아요.';
-  } else {
-    notice.style.display = 'block';
-    notice.innerHTML = '💡 <b>전체 모드:</b> 언어 구분 없이 조회수 높은 영상을 검색해요.';
-  }
+  ['ko','en','all'].forEach(l => {
+    const p = $('pl-'+l);
+    p.className = 'filter-pill' + (l===lang ? ' on-'+lang : '');
+  });
+  const tip = $('langTip');
+  tip.className = 'lang-tip ' + lang;
+  const msgs = {
+    ko: '💡 <b>한국어 모드:</b> 한국어 아마존 영상을 검색해요.',
+    en: '💡 <b>영어 모드:</b> 해외에서 검증된 아마존 콘텐츠를 분석해서 한국 최초로 재구성할 수 있어요.',
+    all: '💡 <b>전체 모드:</b> 언어 구분 없이 조회수 높은 영상을 검색해요.'
+  };
+  tip.innerHTML = msgs[lang];
+  tip.style.display = 'block';
 }
 
 function setType(t, btn) {
   selectedType = t;
-  document.querySelectorAll('.filter-btn.type-btn').forEach(b => b.classList.remove('active'));
+  ['long','short','both'].forEach(x => {
+    $('pl-'+x).className = 'filter-pill' + (x===t ? ' on-type' : '');
+  });
+}
+
+function setSort(s, btn) {
+  selectedSort = s;
+  document.querySelectorAll('.sort-btn').forEach(b => b.classList.remove('active'));
   btn.classList.add('active');
 }
 
 function setStep(n) {
   for(let i=1;i<=4;i++) {
-    const s = $('step'+i);
-    s.classList.remove('active','done');
-    if(i < n) s.classList.add('done');
-    else if(i === n) s.classList.add('active');
+    $('sc'+i).className = 'step-dot' + (i<n?' done':i===n?' active':'');
+    $('sn'+i).className = 'step-txt' + (i<n?' done':i===n?' active':'');
+    if(i<4) $('sl'+i).className = 'step-line' + (i<n?' done':'');
   }
 }
 
-function showError(id, msg) {
-  const el = $(id);
+function showError(msg) {
+  const el = $('searchError');
   el.textContent = msg;
   el.style.display = 'block';
   setTimeout(() => el.style.display = 'none', 6000);
@@ -304,35 +388,36 @@ function formatDate(d) {
 }
 
 function detectLang(title) {
-  const koreanRegex = /[가-힣]/;
-  const japaneseRegex = /[\u3040-\u30ff]/;
-  if (koreanRegex.test(title)) return 'ko';
-  if (japaneseRegex.test(title)) return 'ja';
+  if (/[가-힣]/.test(title)) return 'ko';
+  if (/[\u3040-\u30ff\u4e00-\u9fff]/.test(title)) return 'ja';
   return 'en';
 }
 
 async function doSearch() {
   const ytKey = $('ytKey').value.trim();
   const kw = $('keyword').value.trim();
-  if (!ytKey) { $('apiPanel').classList.add('open'); return showError('searchError', 'YouTube API 키를 입력해주세요.'); }
-  if (!kw) return showError('searchError', '검색 키워드를 입력해주세요.');
+  if (!ytKey) { $('apiPanel').classList.add('open'); return showError('YouTube API 키를 입력해주세요.'); }
+  if (!kw) return showError('검색 키워드를 입력해주세요.');
 
   selectedVideos = [];
   analysisResults = {};
-  $('emptyState').classList.add('hidden');
-  $('videoSection').classList.add('hidden');
+  $('emptyBox').classList.add('hidden');
+  $('resultSection').classList.add('hidden');
   $('analysisSection').classList.add('hidden');
   $('promptSection').classList.add('hidden');
-  $('loadingArea').classList.remove('hidden');
+  $('scriptBtn').style.display = 'none';
+  $('claudePageBtn').style.display = 'none';
+  $('loadingBox').classList.remove('hidden');
   $('loadingMsg').textContent = '유튜브 영상 검색 중...';
   setStep(1);
 
   try {
-
+    const orderMap = { related: 'relevance', views: 'viewCount', recent: 'date' };
+    const order = orderMap[selectedSort] || 'viewCount';
     const dur = selectedType === 'short' ? '&videoDuration=short' : selectedType === 'long' ? '&videoDuration=long' : '';
     const langParam = selectedLang === 'ko' ? '&relevanceLanguage=ko' : selectedLang === 'en' ? '&relevanceLanguage=en' : '';
 
-    const r1 = await fetch(`https://www.googleapis.com/youtube/v3/search?part=snippet&q=${encodeURIComponent(kw)}&type=video&maxResults=20&order=viewCount${dur}${langParam}&key=${ytKey}`);
+    const r1 = await fetch(`https://www.googleapis.com/youtube/v3/search?part=snippet&q=${encodeURIComponent(kw)}&type=video&maxResults=20&order=${order}${dur}${langParam}&key=${ytKey}`);
     const d1 = await r1.json();
     if (d1.error) throw new Error(d1.error.message);
 
@@ -342,7 +427,7 @@ async function doSearch() {
     const statsMap = {};
     d2.items.forEach(v => statsMap[v.id] = v.statistics);
 
-    let videos = d1.items.map(item => ({
+    const videos = d1.items.map(item => ({
       id: item.id.videoId,
       title: item.snippet.title,
       channel: item.snippet.channelTitle,
@@ -350,53 +435,47 @@ async function doSearch() {
       views: parseInt(statsMap[item.id.videoId]?.viewCount || 0),
       publishedAt: item.snippet.publishedAt,
       lang: detectLang(item.snippet.title),
-    }))
-    .filter(v => v.views >= 5000)
-    .sort((a,b) => b.views - a.views)
-    .slice(0, 12);
+    })).filter(v => v.views >= 5000).sort((a,b) => b.views - a.views).slice(0, 12);
 
-    $('loadingArea').classList.add('hidden');
+    $('loadingBox').classList.add('hidden');
 
-    if (videos.length === 0) {
-      $('emptyState').classList.remove('hidden');
-      showError('searchError', '조건에 맞는 영상이 없어요. 다른 키워드로 시도해보세요.');
-      return;
+    if (!videos.length) {
+      $('emptyBox').classList.remove('hidden');
+      return showError('조건에 맞는 영상이 없어요. 다른 키워드로 시도해보세요.');
     }
 
-    window._videos = videos;
+    lastVideos = videos;
     renderVideos(kw, videos);
     setStep(2);
   } catch(e) {
-    $('loadingArea').classList.add('hidden');
-    $('emptyState').classList.remove('hidden');
-    showError('searchError', '오류: ' + e.message);
+    $('loadingBox').classList.add('hidden');
+    $('emptyBox').classList.remove('hidden');
+    showError('오류: ' + e.message);
   }
 }
 
 function renderVideos(kw, videos) {
   const grid = $('videoGrid');
   grid.innerHTML = '';
-
-  const langLabel = selectedLang === 'ko' ? '🇰🇷 한국어' : selectedLang === 'en' ? '🇺🇸 영어' : '전체';
-  $('resultMeta').innerHTML = `<b>"${kw}"</b> · ${langLabel} · 조회수 5천+ · 상위 ${videos.length}개`;
-  $('videoSection').classList.remove('hidden');
+  const langLabel = {ko:'🇰🇷 한국어', en:'🇺🇸 영어', all:'전체'}[selectedLang];
+  $('resultCount').innerHTML = `<b>"${kw}"</b> · ${langLabel} · 조회수 5천+ 제외 · ${videos.length}개 (전체 추정 수백만)`;
+  $('resultSection').classList.remove('hidden');
 
   videos.forEach((v, i) => {
-    const langTagClass = v.lang === 'ko' ? 'ko' : v.lang === 'en' ? 'en' : 'other';
-    const langTagText = v.lang === 'ko' ? '🇰🇷 KO' : v.lang === 'en' ? '🇺🇸 EN' : '🌐';
-
+    const lc = v.lang === 'ko' ? 'ko' : v.lang === 'en' ? 'en' : 'other';
+    const lt = v.lang === 'ko' ? '🇰🇷 KO' : v.lang === 'en' ? '🇺🇸 EN' : '🌐';
     const el = document.createElement('div');
     el.className = 'video-card';
     el.id = 'vc-' + v.id;
     el.innerHTML = `
       <div class="video-thumb-wrap">
         <img class="video-thumb" src="${v.thumb}" alt="" loading="lazy" />
-        <span class="rank-badge">${i+1}</span>
-        <span class="lang-tag ${langTagClass}">${langTagText}</span>
-        <span class="check-badge">✓</span>
-        <span class="transcript-ok">자막완료</span>
+        <span class="rank-num">${i+1}</span>
+        <span class="lang-flag ${lc}">${lt}</span>
+        <div class="check-overlay"><div class="check-circle">✓</div></div>
+        <span class="transcript-ok">✓ 자막완료</span>
       </div>
-      <div class="video-body">
+      <div class="video-info">
         <div class="video-title">${v.title}</div>
         <div class="video-channel">${v.channel}</div>
         <div class="video-stats">
@@ -413,22 +492,24 @@ function renderVideos(kw, videos) {
 function toggleVideo(v, el) {
   const idx = selectedVideos.findIndex(x => x.id === v.id);
   if (idx === -1) {
-    if (selectedVideos.length >= 5) return showError('searchError', '최대 5개까지 선택 가능해요.');
+    if (selectedVideos.length >= 5) return showError('최대 5개까지 선택 가능해요.');
     selectedVideos.push(v);
     el.classList.add('selected');
   } else {
     selectedVideos.splice(idx, 1);
     el.classList.remove('selected');
   }
-  $('analyzeBtn').classList.toggle('hidden', selectedVideos.length === 0);
+  const hasSel = selectedVideos.length > 0;
+  $('analyzeBtn').classList.toggle('hidden', !hasSel);
+  $('scriptBtn').style.display = hasSel ? 'inline-flex' : 'none';
 }
 
 async function analyzeVideos() {
   const supaKey = $('supaKey').value.trim();
-  if (!supaKey) { $('apiPanel').classList.add('open'); return showError('searchError', 'Supadata API 키를 입력해주세요.'); }
+  if (!supaKey) { $('apiPanel').classList.add('open'); return showError('Supadata API 키를 입력해주세요.'); }
 
   $('analysisSection').classList.remove('hidden');
-  $('analysisSectionTitle').textContent = '🧠 자막 분석 중...';
+  $('analysisTtl').textContent = '🧠 자막 분석 중...';
   $('analysisList').innerHTML = '';
   $('generateBtn').classList.add('hidden');
   $('promptSection').classList.add('hidden');
@@ -436,112 +517,104 @@ async function analyzeVideos() {
   $('analysisSection').scrollIntoView({ behavior: 'smooth' });
 
   let doneCount = 0;
-
   for (const v of selectedVideos) {
-    const item = document.createElement('div');
-    item.className = 'analysis-item';
-    item.id = 'ai-' + v.id;
-    item.innerHTML = `
-      <div class="analysis-header">
-        <img class="analysis-thumb" src="${v.thumb}" alt="" />
-        <div class="analysis-title">${v.title}</div>
-        <span class="analysis-status status-loading" id="st-${v.id}">분석 중...</span>
+    const card = document.createElement('div');
+    card.className = 'analysis-card';
+    card.innerHTML = `
+      <div class="analysis-card-head">
+        <img class="a-thumb" src="${v.thumb}" alt="" />
+        <div class="a-title">${v.title}</div>
+        <span class="a-status loading" id="st-${v.id}">분석 중...</span>
       </div>
-      <div class="analysis-content" id="ac-${v.id}"></div>
+      <div class="a-body" id="ac-${v.id}"></div>
     `;
-    $('analysisList').appendChild(item);
+    $('analysisList').appendChild(card);
 
     try {
       const res = await fetch(`https://api.supadata.ai/v1/youtube/transcript?videoId=${v.id}&text=true`, {
         headers: { 'x-api-key': supaKey }
       });
       const data = await res.json();
-
       if (data.content && data.content.length > 0) {
         const transcript = typeof data.content === 'string' ? data.content : data.content.map(c => c.text).join(' ');
-        const summary = extractKeyPoints(transcript, v.title, v.lang);
-        analysisResults[v.id] = { title: v.title, channel: v.channel, views: v.views, lang: v.lang, summary, transcript: transcript.slice(0, 5000) };
-
+        const summary = extractKeyPoints(transcript, v.lang);
+        analysisResults[v.id] = { title: v.title, channel: v.channel, views: v.views, lang: v.lang, summary };
         $('st-'+v.id).textContent = '✓ 분석완료';
-        $('st-'+v.id).className = 'analysis-status status-done';
+        $('st-'+v.id).className = 'a-status done';
         $('ac-'+v.id).textContent = summary;
-        item.classList.add('expanded');
+        card.classList.add('open');
         document.getElementById('vc-'+v.id)?.classList.add('has-transcript');
-      } else {
-        throw new Error('자막 없음');
-      }
+      } else throw new Error('no content');
     } catch(e) {
-      analysisResults[v.id] = { title: v.title, channel: v.channel, views: v.views, lang: v.lang, summary: '자막을 가져올 수 없어요.' };
+      analysisResults[v.id] = { title: v.title, channel: v.channel, views: v.views, lang: v.lang, summary: '자막 없음 - 제목 기반으로만 대본이 생성됩니다.' };
       $('st-'+v.id).textContent = '자막 없음';
-      $('st-'+v.id).className = 'analysis-status status-error';
-      $('ac-'+v.id).textContent = '이 영상은 자막이 제공되지 않아요. 제목 기반으로만 대본이 생성됩니다.';
-      item.classList.add('expanded');
+      $('st-'+v.id).className = 'a-status error';
+      $('ac-'+v.id).textContent = '이 영상은 자막이 제공되지 않아요.';
+      card.classList.add('open');
     }
-
     doneCount++;
     if (doneCount === selectedVideos.length) {
-      $('analysisSectionTitle').textContent = '✅ 자막 분석 완료';
+      $('analysisTtl').textContent = '✅ 자막 분석 완료';
       $('generateBtn').classList.remove('hidden');
     }
   }
 }
 
-function extractKeyPoints(transcript, title, lang) {
+function extractKeyPoints(transcript, lang) {
   const text = transcript.slice(0, 4000);
   const sentences = text.split(/[.!?\n。]\s*/).filter(s => s.trim().length > 20).slice(0, 30);
-
-  const enKeywords = ['step', 'important', 'key', 'tip', 'mistake', 'strategy', 'profit', 'revenue', 'keyword', 'ranking', 'review', 'product', 'listing', 'campaign', 'budget', 'bid', 'acos', 'roas', 'ppc', 'fba', 'seller'];
-  const koKeywords = ['방법', '단계', '핵심', '중요', '절대', '반드시', '주의', '팁', '수익', '매출', '셀러', '아마존', '상품', '리뷰', '광고', '소싱', '리서치', '키워드'];
-  const keywords = lang === 'ko' ? koKeywords : enKeywords;
-
-  const keyParts = sentences.filter(s => keywords.some(k => s.toLowerCase().includes(k))).slice(0, 6);
-  const result = keyParts.length > 0 ? keyParts.join('\n') : sentences.slice(0, 5).join('\n');
-
+  const enKw = ['step','important','key','tip','mistake','strategy','profit','keyword','ranking','review','product','listing','campaign','budget','bid','acos','ppc','fba','seller','amazon'];
+  const koKw = ['방법','단계','핵심','중요','절대','반드시','팁','수익','매출','셀러','아마존','상품','리뷰','광고','소싱','리서치','키워드'];
+  const kws = lang === 'ko' ? koKw : enKw;
+  const hits = sentences.filter(s => kws.some(k => s.toLowerCase().includes(k))).slice(0, 6);
+  const result = hits.length ? hits.join('\n') : sentences.slice(0, 5).join('\n');
   return `📌 핵심 내용:\n${result}\n\n📊 자막 길이: ${transcript.length}자`;
 }
 
 function generatePrompt() {
   const kw = $('keyword').value.trim();
   const typeLabel = selectedType === 'long' ? '롱폼(유튜브 본편 10~15분)' : selectedType === 'short' ? '숏폼(쇼츠/릴스 60초)' : '롱폼 + 숏폼';
-  const isEnMode = selectedLang === 'en';
+  const isEn = selectedLang === 'en';
 
   let videoAnalysis = '';
-  Object.values(analysisResults).forEach((v, i) => {
-    const langBadge = v.lang === 'ko' ? '🇰🇷' : v.lang === 'en' ? '🇺🇸' : '🌐';
-    videoAnalysis += `\n【영상 ${i+1}】 ${langBadge} ${v.title}\n채널: ${v.channel} · 조회수: ${formatViews(v.views)}회\n${v.summary}\n`;
-  });
+  const results = Object.values(analysisResults);
+  if (!results.length) {
+    if (!selectedVideos.length) return showError('영상을 먼저 선택해주세요.');
+    selectedVideos.forEach((v, i) => {
+      videoAnalysis += `\n【영상 ${i+1}】 ${v.title}\n채널: ${v.channel} · 조회수: ${formatViews(v.views)}회\n자막 분석 없음 - 제목 기반으로 작성해주세요.\n`;
+    });
+  } else {
+    results.forEach((v, i) => {
+      const flag = v.lang === 'ko' ? '🇰🇷' : v.lang === 'en' ? '🇺🇸' : '🌐';
+      videoAnalysis += `\n【영상 ${i+1}】 ${flag} ${v.title}\n채널: ${v.channel} · 조회수: ${formatViews(v.views)}회\n${v.summary}\n`;
+    });
+  }
 
-  const enModeInstruction = isEnMode ? `
-⚡ 특별 지시사항 (해외 트렌드 한국화):
-- 위 영상들은 해외(영어권)에서 이미 검증된 콘텐츠입니다
-- 해외에서 조회수가 높은 이유(구조, 후킹, 정보 밀도)를 분석하세요
-- 해당 내용을 한국 아마존 셀러 관점으로 재구성하세요
-- 한국 시청자들이 아직 접하지 못한 정보를 한국 최초로 전달하는 느낌으로 작성하세요
-- 해외 사례나 수치는 한국 셀러가 이해할 수 있도록 맥락과 함께 설명하세요
-` : '';
+  const enNote = isEn ? `\n⚡ 해외 트렌드 한국화 지시:\n- 위 영상들은 해외에서 이미 검증된 콘텐츠입니다\n- 조회수가 높은 이유(구조, 후킹, 정보 밀도)를 분석하세요\n- 한국 아마존 셀러 관점으로 재구성하세요\n- 한국 시청자가 아직 접하지 못한 정보를 한국 최초로 전달하는 느낌으로 작성하세요\n` : '';
 
-  currentPrompt = `아래 유튜브 인기 영상들의 자막을 분석했습니다. 이 내용을 바탕으로 제이든글로벌 채널에 맞는 대본을 작성해주세요.
+  currentPrompt = `아래 유튜브 인기 영상들의 자막을 분석했습니다. 제이든글로벌 채널 지침에 따라 대본을 작성해주세요.
 
 ━━━━━━━━━━━━━━━━━━━━━
 검색 키워드: "${kw}"
 콘텐츠 유형: ${typeLabel}
-검색 언어: ${isEnMode ? '영어 (해외 트렌드 분석)' : '한국어'}
-분석한 영상 수: ${Object.keys(analysisResults).length}개
+검색 언어: ${isEn ? '영어 (해외 트렌드 분석)' : '한국어'}
+분석 영상 수: ${results.length || selectedVideos.length}개
 ━━━━━━━━━━━━━━━━━━━━━
-${enModeInstruction}
-📊 인기 영상 자막 분석 결과:
+${enNote}
+📊 인기 영상 자막 분석:
 ${videoAnalysis}
 ━━━━━━━━━━━━━━━━━━━━━
 
 요청사항:
-1. 위 영상들이 조회수가 높은 이유 (구조, 후킹 포인트, 정보 전달 방식) 분석
-2. 그 핵심을 제이든글로벌 스타일로 재구성
-3. 단순 번역/요약이 아닌, 실제 촬영 가능한 완성형 대본 작성
-4. ${typeLabel} 형식으로 작성
-5. 썸네일 문구 2~3개 + SEO 최적화 제목도 함께 제안해주세요`;
+1. 위 영상들이 조회수가 높은 이유 분석 (구조, 후킹, 정보 전달 방식)
+2. 핵심을 제이든글로벌 스타일로 재구성
+3. 실제 촬영 가능한 완성형 대본 작성
+4. ${typeLabel} 형식
+5. 썸네일 문구 2~3개 + SEO 최적화 제목 제안`;
 
   $('promptBox').textContent = currentPrompt;
   $('promptSection').classList.remove('hidden');
+  $('claudePageBtn').style.display = 'inline-flex';
   $('promptSection').scrollIntoView({ behavior: 'smooth' });
   navigator.clipboard.writeText(currentPrompt).catch(() => {});
   setStep(4);
@@ -549,9 +622,8 @@ ${videoAnalysis}
 
 function copyPrompt() {
   navigator.clipboard.writeText(currentPrompt).then(() => {
-    const btn = event.target;
-    btn.textContent = '복사됨 ✓';
-    setTimeout(() => btn.textContent = '복사', 2000);
+    $('copyBtn').textContent = '복사됨 ✓';
+    setTimeout(() => $('copyBtn').textContent = '복사', 2000);
   });
 }
 
@@ -560,14 +632,35 @@ function openClaude() {
   window.open('https://claude.ai', '_blank');
 }
 
+function refreshSearch() { if ($('keyword').value.trim()) doSearch(); }
+
+function copyUrls() {
+  const urls = lastVideos.map(v => `https://youtube.com/watch?v=${v.id}`).join('\n');
+  navigator.clipboard.writeText(urls).then(() => showError('URL이 복사됐어요!'));
+}
+
+function exportCsv() {
+  if (!lastVideos.length) return;
+  const rows = [['순위','제목','채널','조회수','업로드일','URL']];
+  lastVideos.forEach((v,i) => rows.push([i+1, v.title, v.channel, v.views, formatDate(v.publishedAt), `https://youtube.com/watch?v=${v.id}`]));
+  const csv = rows.map(r => r.map(c => `"${String(c).replace(/"/g,'""')}"`).join(',')).join('\n');
+  const blob = new Blob(['\uFEFF'+csv], {type:'text/csv;charset=utf-8'});
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = `키워드랩_${$('keyword').value}_${new Date().toISOString().slice(0,10)}.csv`;
+  a.click();
+}
+
 function resetAll() {
   selectedVideos = [];
   analysisResults = {};
   currentPrompt = '';
-  $('videoSection').classList.add('hidden');
+  $('resultSection').classList.add('hidden');
   $('analysisSection').classList.add('hidden');
   $('promptSection').classList.add('hidden');
-  $('emptyState').classList.remove('hidden');
+  $('emptyBox').classList.remove('hidden');
+  $('scriptBtn').style.display = 'none';
+  $('claudePageBtn').style.display = 'none';
   $('keyword').value = '';
   setStep(1);
 }
@@ -577,17 +670,16 @@ window.onload = () => {
   const su = localStorage.getItem('supaKey');
   if (yt) $('ytKey').value = yt;
   if (su) $('supaKey').value = su;
-  if (yt && su) { $('apiStatus').textContent = '✓ 저장됨'; $('apiStatus').style.color = 'var(--success)'; }
-  else { $('apiPanel').classList.add('open'); }
+  updateApiStatus();
   $('ytKey').addEventListener('change', () => { localStorage.setItem('ytKey', $('ytKey').value); updateApiStatus(); });
   $('supaKey').addEventListener('change', () => { localStorage.setItem('supaKey', $('supaKey').value); updateApiStatus(); });
 };
 
 function updateApiStatus() {
-  if ($('ytKey').value.trim() && $('supaKey').value.trim()) {
-    $('apiStatus').textContent = '✓ 저장됨';
-    $('apiStatus').style.color = 'var(--success)';
-  }
+  const ok = $('ytKey').value.trim() && $('supaKey').value.trim();
+  const el = $('apiStatusText');
+  el.className = 'api-save-row ' + (ok ? 'api-ok' : 'api-warn');
+  el.textContent = ok ? '✓ API 키 저장됨' : '⚠ API 키를 입력해주세요';
 }
 </script>
 </body>
