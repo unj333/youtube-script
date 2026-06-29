@@ -747,7 +747,7 @@ async function doSearch() {
     }
 
     // 1차 검색
-    const r1 = await fetch(`https://www.googleapis.com/youtube/v3/search?part=snippet&q=${encodeURIComponent(kw)}&type=video&maxResults=25&order=${order}${dur}${langParam}${publishedAfterParam}&key=${ytKey}`);
+    const r1 = await fetch(`https://www.googleapis.com/youtube/v3/search?part=snippet&q=${encodeURIComponent(kw)}&type=video&maxResults=50&order=${order}${dur}${langParam}${publishedAfterParam}&key=${ytKey}`);
     const d1 = await r1.json();
     if (d1.error) throw new Error(d1.error.message);
 
@@ -765,12 +765,12 @@ async function doSearch() {
       views: parseInt(statsMap[item.id.videoId]?.viewCount || 0),
       publishedAt: item.snippet.publishedAt,
       lang: detectLang(item.snippet.title),
-    })).filter(v => v.views >= 1000).sort((a,b) => b.views - a.views).slice(0, 12);
+    })).filter(v => v.views >= 1000).sort((a,b) => b.views - a.views).slice(0, 50);
 
     // A: 결과 부족하면 전체 기간으로 자동 재검색 (기간 필터가 전체가 아닐 때만)
-    if (videos.length < 6 && publishedAfterParam) {
+    if (videos.length < 12 && publishedAfterParam) {
       $('loadingMsg').textContent = '결과가 부족해 전체 기간으로 재검색 중...';
-      const r1b = await fetch(`https://www.googleapis.com/youtube/v3/search?part=snippet&q=${encodeURIComponent(kw)}&type=video&maxResults=25&order=${order}${dur}${langParam}&key=${ytKey}`);
+      const r1b = await fetch(`https://www.googleapis.com/youtube/v3/search?part=snippet&q=${encodeURIComponent(kw)}&type=video&maxResults=50&order=${order}${dur}${langParam}&key=${ytKey}`);
       const d1b = await r1b.json();
       if (!d1b.error) {
         const ids2 = d1b.items.map(i => i.id.videoId).join(',');
@@ -786,7 +786,7 @@ async function doSearch() {
           views: parseInt(statsMap2[item.id.videoId]?.viewCount || 0),
           publishedAt: item.snippet.publishedAt,
           lang: detectLang(item.snippet.title),
-        })).filter(v => v.views >= 1000).sort((a,b) => b.views - a.views).slice(0, 12);
+        })).filter(v => v.views >= 1000).sort((a,b) => b.views - a.views).slice(0, 50);
         if (videos2.length > videos.length) {
           videos = videos2;
           showError('searchError', '⚠ 선택한 기간 내 영상이 부족해서 전체 기간 결과를 표시했어요.');
@@ -816,7 +816,7 @@ function renderVideos(kw, videos) {
   grid.innerHTML = '';
   const langLabel = {ko:'🇰🇷 한국어', en:'🇺🇸 영어', all:'전체'}[selectedLang];
   const periodLabel = {all:'전체 기간', '3y':'최근 3년', '1y':'최근 1년'}[selectedPeriod];
-  $('resultCount').innerHTML = `<b>"${kw}"</b> · ${langLabel} · ${periodLabel} · 조회수 1천+ · 상위 ${videos.length}개 · 영상을 선택하세요 (최대 5개)`;
+  $('resultCount').innerHTML = `<b>"${kw}"</b> · ${langLabel} · ${periodLabel} · 조회수 1천+ · 총 ${videos.length}개 · 영상을 선택하세요 (최대 5개)`;
   $('resultSection').classList.remove('hidden');
 
   videos.forEach((v, i) => {
